@@ -1,4 +1,4 @@
-MSG="Committed At $(shell date)"
+MSG="Committed At $(shell TZ=Asia/Calcutta date)"
 
 git:
 	git status
