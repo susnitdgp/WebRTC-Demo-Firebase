@@ -7,4 +7,4 @@ git:
 	echo "++++++++++++++"
 	git commit -m $(MSG)
 	echo "++++++++++++++"
-	git push -u origin master
+	git push -u origin main
