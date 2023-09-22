@@ -124,6 +124,12 @@ webcamButton.onclick = async () => {
 
 // 2. Create an offer
 callButton.onclick = async () => {
+
+
+  set(ref(db, 'Customers/' + val), {
+    CustomerName: name.value
+
+  });
   
   // Reference Firestore collections for signaling
   const callDoc = firestore.collection('calls').doc();
