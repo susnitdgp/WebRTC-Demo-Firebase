@@ -15,6 +15,19 @@
     body {
       margin: 40px;
     }
+
+    video {
+      width: 40vw;
+      height: 30vw;
+      margin: 2rem;
+      background: #2c3e50;
+    }
+
+    .videos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 
 </head>
@@ -39,7 +52,7 @@
     <br />
 
     <div class="block">
-      <button class="blue">Clear</button>
+      <button class="blue" disabled>Clear</button>
       <button id="insertBtn">Insert</button>
       <b id="result"></b>
     </div>
@@ -54,6 +67,7 @@
   <fieldset>
     <legend>WebRTC Video Chat Demo</legend>
 
+    <h2>1. Start your Webcam</h2>
     <div class="videos">
       <span>
         <h3>Local Stream</h3>
@@ -189,6 +203,7 @@
     });
 
   </script>
+  <script type="module" src="./main.js"></script>
 
 </body>
 
