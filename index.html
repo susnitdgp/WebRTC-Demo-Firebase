@@ -126,7 +126,17 @@
 
   </fieldset>
 
-  <script type="module" src="./main.js"></script>
+
+  <!--  Code blcok to avoid browser cache-->
+  <script>  
+    var version = new Date().getTime();  
+    var script = document.createElement("script");  
+    script.type="module";
+    script.src = "main.js?V=" + version;  
+    document.body.appendChild(script);  
+  </script>
+
+  <!-- <script type="module" src="./main.js"></script> -->
 
 </body>
 
