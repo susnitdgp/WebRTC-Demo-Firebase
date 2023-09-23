@@ -140,7 +140,7 @@ callButton.onclick = async () => {
 
   const offer = {
     sdp: offerDescription.sdp,
-    type: offerDescription.type,
+    type: offerDescription.type
   };
 
   //save the offer in db
@@ -194,19 +194,20 @@ answerButton.onclick = async () => {
   onValue(callRef, (snapshot) => {
     callData = snapshot.val();
     console.log("calldata:  " + callData);
-    
+    const offerDescription = callData.offer;
+     pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   });
 
-  const offerDescription = callData.offer;
-  await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+  //const offerDescription = callData.offer;
+  //await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   const answerDescription = await pc.createAnswer();
   await pc.setLocalDescription(answerDescription);
 
   const answer = {
     type: answerDescription.type,
-    sdp: answerDescription.sdp,
+    sdp: answerDescription.sdp
   };
 
   //await callDoc.update({ answer });
