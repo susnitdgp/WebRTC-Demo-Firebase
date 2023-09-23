@@ -162,6 +162,8 @@ callButton.onclick = async () => {
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
   onValue(answerCandidatesRef, (snapshot) => {
     const data = snapshot.val();
+    const candidate = new RTCIceCandidate(data);
+    pc.addIceCandidate(candidate);
     console.log(data);
   });
 
@@ -174,8 +176,6 @@ callButton.onclick = async () => {
     //});
   //});
   
-
-
 
   hangupButton.disabled = false;
 };
