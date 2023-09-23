@@ -162,9 +162,12 @@ callButton.onclick = async () => {
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
   onValue(answerCandidatesRef, (snapshot) => {
     const data = snapshot.val();
-    console.log("Answer Received: "+data);
-    const candidate = new RTCIceCandidate(data);
-    pc.addIceCandidate(candidate);
+    if(data != null){
+      console.log("Answer Received: "+data);
+      const candidate = new RTCIceCandidate(data);
+      pc.addIceCandidate(candidate);
+    }
+    
     
     
 
@@ -225,5 +228,3 @@ answerButton.onclick = async () => {
   
 
 };
-
-
