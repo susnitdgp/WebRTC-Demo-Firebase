@@ -186,8 +186,6 @@ answerButton.onclick = async () => {
   
   const callId = callInput.value;
 
-
-
   pc.onicecandidate = (event) => {
     
     event.candidate && set(ref(db, 'Calls/' + val + "/answerCandidates/"), event.candidate.toJSON());
@@ -199,7 +197,7 @@ answerButton.onclick = async () => {
   const callRef = ref(db, 'Calls/' + val);
   onValue(callRef, (snapshot) => {
     callData = snapshot.val();
-    console.log(data);
+    console.log(callData);
     
 
   });
