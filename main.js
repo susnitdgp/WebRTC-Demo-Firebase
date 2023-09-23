@@ -219,8 +219,7 @@ answerButton.onclick = async () => {
     sdp: answerDescription.sdp
   };
 
-  //await callDoc.update({ answer });
-  await set(ref(db, 'Calls/' + callId +"/answer/"),answer);
+  set(ref(db, 'Calls/' + callId +"/answer/"),answer);
 
 
   const offerCandidatesRef = ref(db, 'Calls/' + callId +"/offerCandidates/");
