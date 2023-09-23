@@ -128,11 +128,11 @@ callButton.onclick = async () => {
   //Reference Firestore collections for signaling
 
   //const callDoc = firestore.collection('calls').doc();
-  set(ref(db, 'Calls/' + val));
+  //set(ref(db, 'Calls/' + val));
   //const offerCandidates = callDoc.collection('offerCandidates');
-  set(ref(db, 'Calls/' + val + "/offerCandidates/"));
+  //set(ref(db, 'Calls/' + val + "/offerCandidates/"));
   //const answerCandidates = callDoc.collection('answerCandidates');
-  set(ref(db, 'Calls/' + val + "/answerCandidates/"));
+  //set(ref(db, 'Calls/' + val + "/answerCandidates/"));
 
   callInput.value = val;
 
