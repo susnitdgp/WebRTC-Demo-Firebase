@@ -125,15 +125,7 @@ webcamButton.onclick = async () => {
 // 2. Create an offer
 callButton.onclick = async () => {
 
-  //Reference Firestore collections for signaling
-
-  //const callDoc = firestore.collection('calls').doc();
-  //set(ref(db, 'Calls/' + val));
-  //const offerCandidates = callDoc.collection('offerCandidates');
-  //set(ref(db, 'Calls/' + val + "/offerCandidates/"));
-  //const answerCandidates = callDoc.collection('answerCandidates');
-  //set(ref(db, 'Calls/' + val + "/answerCandidates/"));
-
+  
   callInput.value = val;
 
   // Get candidates for caller, save to db
@@ -165,13 +157,6 @@ callButton.onclick = async () => {
     
   });
 
-  //callDoc.onSnapshot((snapshot) => {
-    //const data = snapshot.data();
-    //if (!pc.currentRemoteDescription && data?.answer) {
-      //const answerDescription = new RTCSessionDescription(data.answer);
-      //pc.setRemoteDescription(answerDescription);
-    //}
-  //});
 
   // When answered, add candidate to peer connection
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
@@ -195,21 +180,29 @@ callButton.onclick = async () => {
   hangupButton.disabled = false;
 };
 
-/*
+
 // 3. Answer the call with the unique ID
 answerButton.onclick = async () => {
+  
   const callId = callInput.value;
 
-  //const callDoc = firestore.collection('calls').doc(callId);
-  //const answerCandidates = callDoc.collection('answerCandidates');
-  //const offerCandidates = callDoc.collection('offerCandidates');
+
 
   pc.onicecandidate = (event) => {
-    //event.candidate && answerCandidates.add(event.candidate.toJSON());
+    
     event.candidate && set(ref(db, 'Calls/' + val + "/answerCandidates/"), event.candidate.toJSON());
   };
 
-  const callData = (await callDoc.get()).data();
+  
+  var callData;
+
+  const callRef = ref(db, 'Calls/' + val);
+  onValue(callRef, (snapshot) => {
+    callData = snapshot.val();
+    console.log(data);
+    
+
+  });
 
   const offerDescription = callData.offer;
   await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
@@ -222,8 +215,20 @@ answerButton.onclick = async () => {
     sdp: answerDescription.sdp,
   };
 
-  await callDoc.update({ answer });
+  //await callDoc.update({ answer });
+  set(ref(db, 'Calls/' + val +"/answer/"),answer);
 
+
+  const offerCandidatesRef = ref(db, 'Calls/' + val +"/offerCandidates/");
+  onValue(offerCandidatesRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+    pc.addIceCandidate(new RTCIceCandidate(data));
+    
+
+  });
+
+  /*
   offerCandidates.onSnapshot((snapshot) => {
     snapshot.docChanges().forEach((change) => {
       console.log(change);
@@ -232,7 +237,10 @@ answerButton.onclick = async () => {
         pc.addIceCandidate(new RTCIceCandidate(data));
       }
     });
-  });
+  }); */
+
+
+
 };
-*/
+
 
