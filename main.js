@@ -96,6 +96,9 @@ const answerButton = document.getElementById('answerButton');
 const remoteVideo = document.getElementById('remoteVideo');
 const hangupButton = document.getElementById('hangupButton');
 
+
+callInput.value = val;
+
 // 1. Setup media sources
 
 webcamButton.onclick = async () => {
