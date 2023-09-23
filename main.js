@@ -133,7 +133,7 @@ webcamButton.onclick = async () => {
 
 
 // 2. Create an offer
-callButton.onclick = async () => {
+callButton.onclick = () => {
 
   
   callInput.value = val;
@@ -144,8 +144,8 @@ callButton.onclick = async () => {
   };
 
   // Create offer
-  const offerDescription = await pc.createOffer();
-  await pc.setLocalDescription(offerDescription);
+  const offerDescription =  pc.createOffer();
+  pc.setLocalDescription(offerDescription);
 
   const offer = {
     sdp: offerDescription.sdp,
@@ -187,7 +187,7 @@ callButton.onclick = async () => {
 
 
 // 3. Answer the call with the unique ID
-answerButton.onclick = async () => {
+answerButton.onclick =  () => {
   
   const callId = callInput.value;
 
@@ -199,19 +199,19 @@ answerButton.onclick = async () => {
   
   // Fetch data, then set the offer & answer
   const callOfferRef = ref(db, 'Calls/' + callId +"/offer/");
-  onValue(callOfferRef, async (snapshot) => {
+  onValue(callOfferRef, (snapshot) => {
     const data = snapshot.val();
     console.log("Call Offer: " + data);
     const offerDescription = data;
-    await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+    pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   });
 
   //const offerDescription = callData.offer;
   //await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
-  const answerDescription = await pc.createAnswer();
-  await pc.setLocalDescription(answerDescription);
+  const answerDescription = pc.createAnswer();
+  pc.setLocalDescription(answerDescription);
 
   const answer = {
     type: answerDescription.type,
