@@ -161,10 +161,15 @@ callButton.onclick = async () => {
   // When answered, add candidate to peer connection
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
   onValue(answerCandidatesRef, (snapshot) => {
-    const data = snapshot.val();
-    const candidate = new RTCIceCandidate(data);
-    pc.addIceCandidate(candidate);
-    console.log(data);
+    //const data = snapshot.val();
+    //const candidate = new RTCIceCandidate(data);
+    //pc.addIceCandidate(candidate);
+    //console.log(data);
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added') {
+        const candidate = new RTCIceCandidate(change.doc.data());
+        pc.addIceCandidate(candidate);
+      }
   });
 
  // answerCandidates.onSnapshot((snapshot) => {
@@ -219,10 +224,16 @@ answerButton.onclick = async () => {
 
   const offerCandidatesRef = ref(db, 'Calls/' + val +"/offerCandidates/");
   onValue(offerCandidatesRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-    pc.addIceCandidate(new RTCIceCandidate(data));
-    
+    //const data = snapshot.val();
+    //console.log(data);
+    //pc.addIceCandidate(new RTCIceCandidate(data));
+    snapshot.docChanges().forEach((change) => {
+      console.log(change);
+      if (change.type === 'added') {
+        let data = change.doc.data();
+        pc.addIceCandidate(new RTCIceCandidate(data));
+      }
+    });
 
   });
 
