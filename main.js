@@ -117,6 +117,11 @@ webcamButton.onclick = async () => {
     });
   };
 
+  pc.onnegotiationneeded = e => {
+    if (pc.signalingState != "stable") return;
+  
+  }
+
   webcamVideo.srcObject = localStream;
   remoteVideo.srcObject = remoteStream;
 
