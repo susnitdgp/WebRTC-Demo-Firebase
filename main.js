@@ -82,7 +82,8 @@ const servers = {
 };
 
 // Global State
-const pc = new RTCPeerConnection(servers);
+//const pc = new RTCPeerConnection(servers);
+const pc = new RTCPeerConnection();
 let localStream = null;
 let remoteStream = null;
 
@@ -101,8 +102,8 @@ callInput.value = val;
 
 // 1. Setup media sources
 
-webcamButton.onclick =  () => {
-  localStream =  navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+webcamButton.onclick = async () => {
+  localStream =  await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   remoteStream = new MediaStream();
 
   // Push tracks from local stream to peer connection
@@ -187,7 +188,7 @@ callButton.onclick = () => {
 
 
 // 3. Answer the call with the unique ID
-answerButton.onclick =  () => {
+answerButton.onclick = async () => {
   
   const callId = callInput.value;
 
