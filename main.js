@@ -39,6 +39,7 @@
  sbtButton.addEventListener('click', insertData);
 
  const val = UUID.generate();
+ 
  var uuidText = document.querySelector('input#uuid');
  uuidText.value = val;
  console.log(val);
@@ -170,7 +171,6 @@ callButton.onclick = async () => {
     
     
     
-
   });
 
  
@@ -219,12 +219,11 @@ answerButton.onclick = async () => {
   const offerCandidatesRef = ref(db, 'Calls/' + callId +"/offerCandidates/");
   onValue(offerCandidatesRef, (snapshot) => {
     const data = snapshot.val();
-    console.log("Offer Received: " + data);
-    pc.addIceCandidate(new RTCIceCandidate(data));
-    
+    if ( data!=null){
+      console.log("Offer Received: " + data);
+      pc.addIceCandidate(new RTCIceCandidate(data));
+    }
 
   });
-
-  
 
 };
