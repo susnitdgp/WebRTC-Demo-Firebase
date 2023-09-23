@@ -134,7 +134,7 @@ webcamButton.onclick = async () => {
 
 
 // 2. Create an offer
-callButton.onclick = () => {
+callButton.onclick = async () => {
 
   
   callInput.value = val;
@@ -145,7 +145,7 @@ callButton.onclick = () => {
   };
 
   // Create offer
-  const offerDescription =  pc.createOffer();
+  const offerDescription =  await pc.createOffer();
   pc.setLocalDescription(offerDescription);
 
   const offer = {
@@ -200,11 +200,11 @@ answerButton.onclick = async () => {
   
   // Fetch data, then set the offer & answer
   const callOfferRef = ref(db, 'Calls/' + callId +"/offer/");
-  onValue(callOfferRef, (snapshot) => {
+  onValue(callOfferRef, async(snapshot) => {
     const data = snapshot.val();
     console.log("Call Offer: " + data);
     const offerDescription = data;
-    pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+    await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   });
 
@@ -220,7 +220,7 @@ answerButton.onclick = async () => {
   };
 
   //await callDoc.update({ answer });
-  set(ref(db, 'Calls/' + callId +"/answer/"),answer);
+  await set(ref(db, 'Calls/' + callId +"/answer/"),answer);
 
 
   const offerCandidatesRef = ref(db, 'Calls/' + callId +"/offerCandidates/");
