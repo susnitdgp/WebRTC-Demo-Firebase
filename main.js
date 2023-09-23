@@ -38,7 +38,8 @@
  const sbtButton = document.querySelector('button#insertBtn');
  sbtButton.addEventListener('click', insertData);
 
- const val = UUID.generate();
+ //const val = UUID.generate();
+ const val="779b3a28-acb1-4abc-a486-b5a6527c1633";
  
  var uuidText = document.querySelector('input#uuid');
  uuidText.value = val;
