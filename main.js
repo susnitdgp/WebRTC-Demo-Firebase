@@ -199,11 +199,11 @@ answerButton.onclick = async () => {
   
   // Fetch data, then set the offer & answer
   const callOfferRef = ref(db, 'Calls/' + callId +"/offer/");
-  onValue(callOfferRef, (snapshot) => {
+  onValue(callOfferRef, async (snapshot) => {
     const data = snapshot.val();
     console.log("Call Offer: " + data);
     const offerDescription = data;
-    pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+    await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   });
 
