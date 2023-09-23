@@ -170,6 +170,8 @@ callButton.onclick = async () => {
         const candidate = new RTCIceCandidate(change.doc.data());
         pc.addIceCandidate(candidate);
       }
+    })
+
   });
 
  // answerCandidates.onSnapshot((snapshot) => {
@@ -183,6 +185,7 @@ callButton.onclick = async () => {
   
 
   hangupButton.disabled = false;
+  
 };
 
 
