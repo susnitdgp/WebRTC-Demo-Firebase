@@ -143,23 +143,23 @@ callButton.onclick = async () => {
     type: offerDescription.type,
   };
 
-  //await callDoc.set({ offer });
+  //save the offer in db
   set(ref(db, 'Calls/' + val +"/offer/"),offer);
 
 
   // Listen for remote answer
-  const callRef = ref(db, 'Calls/' + val);
-  onValue(callRef, (snapshot) => {
+  const callAnswerRef = ref(db, 'Calls/' + val+ "/answer/");
+  onValue(callAnswerRef, (snapshot) => {
     const data = snapshot.val();
-    if (!pc.currentRemoteDescription && data?.answer) {
-      const answerDescription = new RTCSessionDescription(data.answer);
+    if (!pc.currentRemoteDescription && data != null) {
+      const answerDescription = new RTCSessionDescription(data);
       pc.setRemoteDescription(answerDescription);
     }
     
   });
 
-
-  // When answered, add candidate to peer connection
+  //Listen for remote ICE candidates
+  //When answered, add candidate to peer connection
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
   onValue(answerCandidatesRef, (snapshot) => {
     const data = snapshot.val();
@@ -167,14 +167,11 @@ callButton.onclick = async () => {
       console.log("Answer Received: "+data);
       const candidate = new RTCIceCandidate(data);
       pc.addIceCandidate(candidate);
-    }
-    
-    
+    }   
     
   });
 
  
-
   hangupButton.disabled = false;
 
 };
