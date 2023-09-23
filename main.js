@@ -176,7 +176,7 @@ callButton.onclick = async () => {
   // When answered, add candidate to peer connection
   const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
   onValue(answerCandidatesRef, (snapshot) => {
-    const data = snapshot.data();
+    const data = snapshot.val();
     console.log(data);
   });
 
