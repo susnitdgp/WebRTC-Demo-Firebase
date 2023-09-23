@@ -151,7 +151,7 @@ callButton.onclick = async () => {
   };
 
   //await callDoc.set({ offer });
-  set(ref(db, 'Calls/' + val),offer.toJSON());
+  set(ref(db, 'Calls/' + val +"/offer/"),offer);
 
 
   // Listen for remote answer
