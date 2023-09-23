@@ -187,16 +187,16 @@ answerButton.onclick = async () => {
 
   pc.onicecandidate = (event) => {
     
-    event.candidate && set(ref(db, 'Calls/' + val + "/answerCandidates/"), event.candidate.toJSON());
+    event.candidate && set(ref(db, 'Calls/' + callId + "/answerCandidates/"), event.candidate.toJSON());
   };
 
   
   var callData;
 
-  const callRef = ref(db, 'Calls/' + val);
+  const callRef = ref(db, 'Calls/' + callId);
   onValue(callRef, (snapshot) => {
     callData = snapshot.val();
-    console.log(callData);
+    console.log("calldata:  " + callData);
     
 
   });
@@ -213,10 +213,10 @@ answerButton.onclick = async () => {
   };
 
   //await callDoc.update({ answer });
-  set(ref(db, 'Calls/' + val +"/answer/"),answer);
+  set(ref(db, 'Calls/' + callId +"/answer/"),answer);
 
 
-  const offerCandidatesRef = ref(db, 'Calls/' + val +"/offerCandidates/");
+  const offerCandidatesRef = ref(db, 'Calls/' + callId +"/offerCandidates/");
   onValue(offerCandidatesRef, (snapshot) => {
     const data = snapshot.val();
     console.log("Offer Received: " + data);
