@@ -126,9 +126,13 @@ webcamButton.onclick = async () => {
 callButton.onclick = async () => {
 
   //Reference Firestore collections for signaling
+
   //const callDoc = firestore.collection('calls').doc();
+  set(ref(db, 'Calls/' + val));
   //const offerCandidates = callDoc.collection('offerCandidates');
+  set(ref(db, 'Calls/' + val + "/offerCandidates/"));
   //const answerCandidates = callDoc.collection('answerCandidates');
+  set(ref(db, 'Calls/' + val + "/answerCandidates/"));
 
   callInput.value = val;
 
@@ -147,31 +151,88 @@ callButton.onclick = async () => {
   };
 
   //await callDoc.set({ offer });
-  set(ref(db, 'Calls/' + val),offer);
+  set(ref(db, 'Calls/' + val),offer.toJSON());
 
-
-  /*
 
   // Listen for remote answer
-  callDoc.onSnapshot((snapshot) => {
-    const data = snapshot.data();
+  const callRef = ref(db, 'Calls/' + val);
+  onValue(callRef, (snapshot) => {
+    const data = snapshot.val();
     if (!pc.currentRemoteDescription && data?.answer) {
       const answerDescription = new RTCSessionDescription(data.answer);
       pc.setRemoteDescription(answerDescription);
     }
+    
   });
 
+  //callDoc.onSnapshot((snapshot) => {
+    //const data = snapshot.data();
+    //if (!pc.currentRemoteDescription && data?.answer) {
+      //const answerDescription = new RTCSessionDescription(data.answer);
+      //pc.setRemoteDescription(answerDescription);
+    //}
+  //});
+
   // When answered, add candidate to peer connection
-  answerCandidates.onSnapshot((snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === 'added') {
-        const candidate = new RTCIceCandidate(change.doc.data());
-        pc.addIceCandidate(candidate);
-      }
-    });
+  const answerCandidatesRef = ref(db, 'Calls/' + val +"/answerCandidates/");
+  onValue(answerCandidatesRef, (snapshot) => {
+    const data = snapshot.data();
+    console.log(data);
   });
-  */
+
+ // answerCandidates.onSnapshot((snapshot) => {
+   // snapshot.docChanges().forEach((change) => {
+     // if (change.type === 'added') {
+       // const candidate = new RTCIceCandidate(change.doc.data());
+        //pc.addIceCandidate(candidate);
+      //}
+    //});
+  //});
+  
+
+
+
   hangupButton.disabled = false;
 };
 
+/*
+// 3. Answer the call with the unique ID
+answerButton.onclick = async () => {
+  const callId = callInput.value;
+
+  //const callDoc = firestore.collection('calls').doc(callId);
+  //const answerCandidates = callDoc.collection('answerCandidates');
+  //const offerCandidates = callDoc.collection('offerCandidates');
+
+  pc.onicecandidate = (event) => {
+    //event.candidate && answerCandidates.add(event.candidate.toJSON());
+    event.candidate && set(ref(db, 'Calls/' + val + "/answerCandidates/"), event.candidate.toJSON());
+  };
+
+  const callData = (await callDoc.get()).data();
+
+  const offerDescription = callData.offer;
+  await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+
+  const answerDescription = await pc.createAnswer();
+  await pc.setLocalDescription(answerDescription);
+
+  const answer = {
+    type: answerDescription.type,
+    sdp: answerDescription.sdp,
+  };
+
+  await callDoc.update({ answer });
+
+  offerCandidates.onSnapshot((snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      console.log(change);
+      if (change.type === 'added') {
+        let data = change.doc.data();
+        pc.addIceCandidate(new RTCIceCandidate(data));
+      }
+    });
+  });
+};
+*/
 
