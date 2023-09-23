@@ -61,11 +61,11 @@
  }
 
  //read data of Students collection and document 426
- const studentsRef = ref(db, 'Students/' + "426/");
- onValue(studentsRef, (snapshot) => {
-   const data = snapshot.val();
-   console.log(data.fname);
- });
+ //const studentsRef = ref(db, 'Students/' + "426/");
+ //onValue(studentsRef, (snapshot) => {
+  // const data = snapshot.val();
+   //console.log(data.fname);
+ //});
 
 
 //Second Part----------------------------//
@@ -125,22 +125,16 @@ webcamButton.onclick = async () => {
 // 2. Create an offer
 callButton.onclick = async () => {
 
+  //Reference Firestore collections for signaling
+  //const callDoc = firestore.collection('calls').doc();
+  //const offerCandidates = callDoc.collection('offerCandidates');
+  //const answerCandidates = callDoc.collection('answerCandidates');
 
-  set(ref(db, 'Customers/' + val), {
-    CustomerName: name.value
-
-  });
-  
-  // Reference Firestore collections for signaling
-  const callDoc = firestore.collection('calls').doc();
-  const offerCandidates = callDoc.collection('offerCandidates');
-  const answerCandidates = callDoc.collection('answerCandidates');
-
-  callInput.value = callDoc.id;
+  callInput.value = val;
 
   // Get candidates for caller, save to db
   pc.onicecandidate = (event) => {
-    event.candidate && offerCandidates.add(event.candidate.toJSON());
+    event.candidate &&  set(ref(db, 'Calls/' + val + "/offerCandidates/"), event.candidate.toJSON());
   };
 
   // Create offer
@@ -152,7 +146,11 @@ callButton.onclick = async () => {
     type: offerDescription.type,
   };
 
-  await callDoc.set({ offer });
+  //await callDoc.set({ offer });
+  set(ref(db, 'Calls/' + val),offer);
+
+
+  /*
 
   // Listen for remote answer
   callDoc.onSnapshot((snapshot) => {
@@ -172,7 +170,7 @@ callButton.onclick = async () => {
       }
     });
   });
-
+  */
   hangupButton.disabled = false;
 };
 
